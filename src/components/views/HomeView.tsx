@@ -59,12 +59,18 @@ export function HomeView({ players, themes, onSelectTheme, onStartGame }: HomeVi
       <div className="flex-1" />
 
       <button
-        className="w-full h-14 bg-white rounded-full text-black font-semibold text-lg shadow-lg ios-btn flex items-center justify-center gap-2 mb-8"
+        className="w-full h-14 bg-white rounded-full text-black font-semibold text-lg shadow-lg ios-btn flex items-center justify-center gap-2 mb-4"
         onClick={onStartGame}
       >
         <span>开始游戏</span>
         <ChevronRight size={20} />
       </button>
+
+      <div className="text-center mb-4">
+        <p className="text-xs text-gray-500">
+          问题反馈请联系 <a href="mailto:ikun@gmx.cn" className="text-gray-400 hover:text-white transition-colors">ikun@gmx.cn</a>
+        </p>
+      </div>
     </div>
   );
 }
