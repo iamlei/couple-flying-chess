@@ -1,17 +1,23 @@
 export type TileType = 'blank' | 'lucky' | 'trap';
 
+export type PlayerRole = 'male' | 'female';
+
 export interface Player {
   id: number;
   name: string;
   color: string;
+  role: PlayerRole;
   step: number;
   themeId: string | null;
 }
+
+export type ThemeAudience = 'common' | 'male' | 'female';
 
 export interface Theme {
   id: string;
   name: string;
   desc: string;
+  audience: ThemeAudience;
   tasks: string[];
 }
 

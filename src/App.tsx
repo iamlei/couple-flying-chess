@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Github } from 'lucide-react';
 import { useGameState } from './hooks/useGameState';
 import { TaskEventData } from './types';
 import { HomeView } from './components/views/HomeView';
@@ -8,12 +9,20 @@ import { ThemeSelectorModal } from './components/modals/ThemeSelectorModal';
 import { TaskCardModal } from './components/modals/TaskCardModal';
 import { WinModal } from './components/modals/WinModal';
 import { BottomNav } from './components/BottomNav';
+import { ThemeCreateModal } from './components/modals/ThemeCreateModal';
+import { ThemeEditorModal } from './components/modals/ThemeEditorModal';
+import { AiImportModal } from './components/modals/AiImportModal';
 
 function App() {
   const {
     state,
     switchView,
     selectTheme,
+    createTheme,
+    updateThemeMeta,
+    addThemeTask,
+    removeThemeTask,
+    importThemeTasks,
     startGame,
     movePlayer,
     endTurn,
@@ -27,6 +36,9 @@ function App() {
   const [selectedPlayerId, setSelectedPlayerId] = useState<number>(0);
   const [taskData, setTaskData] = useState<TaskEventData | null>(null);
   const [winnerId, setWinnerId] = useState<number | null>(null);
+  const [isCreateThemeModalOpen, setIsCreateThemeModalOpen] = useState(false);
+  const [editingThemeId, setEditingThemeId] = useState<string | null>(null);
+  const [aiImportThemeId, setAiImportThemeId] = useState<string | null>(null);
 
   const handleSelectTheme = (playerId: number) => {
     setSelectedPlayerId(playerId);
@@ -36,6 +48,11 @@ function App() {
   const handleThemeSelect = (themeId: string) => {
     selectTheme(selectedPlayerId, themeId);
   };
+
+  const selectedPlayer = state.players.find(p => p.id === selectedPlayerId) || state.players[0];
+  const selectableThemes = state.themes.filter(
+    t => t.audience === 'common' || t.audience === selectedPlayer.role
+  );
 
   const handleStartGame = () => {
     const success = startGame();
@@ -83,11 +100,22 @@ function App() {
       </div>
 
       <div className="relative z-10 w-full max-w-[430px] h-full flex flex-col bg-black/20">
-        <header className="pt-12 pb-2 px-6 shrink-0">
-          <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">
-            Couple's Game
+        <header className="pt-12 pb-2 px-6 shrink-0 flex justify-between items-start">
+          <div>
+            <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">
+              Couple's Game
+            </div>
+            <h1 className="text-3xl font-bold text-white tracking-tight">情侣飞行棋</h1>
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">情侣飞行棋</h1>
+          <a
+            href="https://github.com/woniu9524/couple-flying-chess"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1 text-gray-400 hover:text-white transition-colors"
+            title="GitHub Repository"
+          >
+            <Github size={24} />
+          </a>
         </header>
 
         <main className="flex-1 relative overflow-hidden">
@@ -113,7 +141,11 @@ function App() {
                 : 'opacity-0 pointer-events-none translate-x-full'
             }`}
           >
-            <ThemesView themes={state.themes} />
+            <ThemesView
+              themes={state.themes}
+              onCreateTheme={() => setIsCreateThemeModalOpen(true)}
+              onEditTheme={themeId => setEditingThemeId(themeId)}
+            />
           </div>
         </main>
 
@@ -122,8 +154,8 @@ function App() {
 
       <ThemeSelectorModal
         isOpen={isThemeModalOpen}
-        themes={state.themes}
-        selectedThemeId={state.players[selectedPlayerId]?.themeId}
+        themes={selectableThemes}
+        selectedThemeId={selectedPlayer?.themeId || null}
         onSelect={handleThemeSelect}
         onClose={() => setIsThemeModalOpen(false)}
       />
@@ -141,6 +173,39 @@ function App() {
         onRestart={() => {
           resetGame();
           setWinnerId(null);
+        }}
+      />
+
+      <ThemeCreateModal
+        isOpen={isCreateThemeModalOpen}
+        onClose={() => setIsCreateThemeModalOpen(false)}
+        onCreate={input => {
+          const id = createTheme(input);
+          setIsCreateThemeModalOpen(false);
+          if (id) setEditingThemeId(id);
+        }}
+      />
+
+      <ThemeEditorModal
+        isOpen={!!editingThemeId}
+        theme={editingThemeId ? state.themes.find(t => t.id === editingThemeId) || null : null}
+        onClose={() => {
+          setEditingThemeId(null);
+          setAiImportThemeId(null);
+        }}
+        onSaveMeta={(themeId, patch) => updateThemeMeta(themeId, patch)}
+        onAddTask={(themeId, taskText) => addThemeTask(themeId, taskText)}
+        onRemoveTask={(themeId, index) => removeThemeTask(themeId, index)}
+        onOpenAiImport={themeId => setAiImportThemeId(themeId)}
+      />
+
+      <AiImportModal
+        isOpen={!!aiImportThemeId}
+        themeName={aiImportThemeId ? state.themes.find(t => t.id === aiImportThemeId)?.name || '' : ''}
+        onClose={() => setAiImportThemeId(null)}
+        onImport={(tasks, mode) => {
+          if (!aiImportThemeId) return;
+          importThemeTasks(aiImportThemeId, tasks, mode);
         }}
       />
 
