@@ -107,15 +107,23 @@ function App() {
             </div>
             <h1 className="text-3xl font-bold text-white tracking-tight">情侣飞行棋</h1>
           </div>
-          <a
-            href="https://github.com/woniu9524/couple-flying-chess"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-1 text-gray-400 hover:text-white transition-colors"
-            title="GitHub Repository"
-          >
-            <Github size={24} />
-          </a>
+          <div className="flex flex-col items-end gap-2 mt-1">
+            <a
+              href="https://github.com/woniu9524/couple-flying-chess"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+              title="GitHub Repository"
+            >
+              <Github size={24} />
+            </a>
+            <a
+              href="mailto:ikun@gmx.cn"
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+            >
+              问题反馈：ikun@gmx.cn
+            </a>
+          </div>
         </header>
 
         <main className="flex-1 relative overflow-hidden">
