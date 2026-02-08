@@ -118,7 +118,7 @@ export function GameView({
                 }`}
               >
                 <User size={14} />
-                <span className="text-xs font-bold">男方</span>
+                <span className="text-xs font-bold">主（男性向）</span>
               </div>
               <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest px-2">
                 Turn {turnNumber}
@@ -130,7 +130,7 @@ export function GameView({
                     : 'text-[#FF375F] opacity-60'
                 }`}
               >
-                <span className="text-xs font-bold">女方</span>
+                <span className="text-xs font-bold">贝（女性向）</span>
                 <UserRound size={14} />
               </div>
             </div>

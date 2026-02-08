@@ -103,24 +103,12 @@ function App() {
         <header className="pt-12 pb-2 px-6 shrink-0 flex justify-between items-start">
           <div>
             <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">
-              Chriss Couple's Game
+              柯老师 Spanking Game
             </div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">柯老师主贝实践飞行棋</h1>
+            <h1 className="text-3xl font-bold text-white tracking-tight">圈内实践飞行棋</h1>
           </div>
            <div className="flex flex-col items-end gap-2 mt-1">
-            {/* <a
-              href=""
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-              title="GitHub Repository"
-            >
-              <Github size={24} />
-            </a> */}
-            <a
-              href=""
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
-            >
+            <a href="#" className="text-xs text-gray-500 hover:text-gray-300 transition-colors" >
               微信：Chrissdom
             </a>
           </div> 
