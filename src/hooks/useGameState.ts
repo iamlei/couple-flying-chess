@@ -7,8 +7,8 @@ import { DEFAULT_THEMES } from '../data/defaultThemes';
 const STORAGE_KEY = 'couples-ludo-game-state';
 
 const initialPlayers: Player[] = [
-  { id: 0, name: '男方', color: '#0A84FF', role: 'male', step: 0, themeId: null },
-  { id: 1, name: '女方', color: '#FF375F', role: 'female', step: 0, themeId: null }
+  { id: 0, name: '主（男性向）', color: '#0A84FF', role: 'male', step: 0, themeId: null },
+  { id: 1, name: '贝（女性向）', color: '#FF375F', role: 'female', step: 0, themeId: null }
 ];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
