@@ -103,7 +103,7 @@ function App() {
         <header className="pt-12 pb-2 px-6 shrink-0 flex justify-between items-start">
           <div>
             <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">
-              柯老师 Spanking Game
+              柯老师 Spanking&flying Game
             </div>
             <h1 className="text-3xl font-bold text-white tracking-tight">圈内实践飞行棋</h1>
           </div>
