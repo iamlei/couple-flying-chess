@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Github } from 'lucide-react';
 import { useGameState } from './hooks/useGameState';
 import { TaskEventData } from './types';
@@ -12,6 +12,7 @@ import { BottomNav } from './components/BottomNav';
 import { ThemeCreateModal } from './components/modals/ThemeCreateModal';
 import { ThemeEditorModal } from './components/modals/ThemeEditorModal';
 import { AiImportModal } from './components/modals/AiImportModal';
+import { PasswordModal } from './components/modals/PasswordModal';
 
 function App() {
   const {
@@ -39,6 +40,10 @@ function App() {
   const [isCreateThemeModalOpen, setIsCreateThemeModalOpen] = useState(false);
   const [editingThemeId, setEditingThemeId] = useState<string | null>(null);
   const [aiImportThemeId, setAiImportThemeId] = useState<string | null>(null);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [hasEnteredPassword, setHasEnteredPassword] = useState(() => {
+    return sessionStorage.getItem('hasEnteredPassword') === 'true';
+  });
 
   const handleSelectTheme = (playerId: number) => {
     setSelectedPlayerId(playerId);
@@ -89,6 +94,30 @@ function App() {
     if (confirm('离开游戏？进度不会保存')) {
       resetGame();
       switchView('home');
+    }
+  };
+
+  // 1分钟后自动弹窗
+  useEffect(() => {
+    if (!hasEnteredPassword) {
+      const timer = setTimeout(() => {
+        setIsPasswordModalOpen(true);
+      }, 60000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [hasEnteredPassword]);
+
+  // 密码验证逻辑
+  const handlePasswordSubmit = (password: string) => {
+    const now = new Date();
+    const currentYearMonth = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, '0');
+    if (password === currentYearMonth) {
+      setHasEnteredPassword(true);
+      setIsPasswordModalOpen(false);
+      sessionStorage.setItem('hasEnteredPassword', 'true');
+    } else {
+      alert('密码错误，请重新输入');
     }
   };
 
@@ -203,6 +232,12 @@ function App() {
           if (!aiImportThemeId) return;
           importThemeTasks(aiImportThemeId, tasks, mode);
         }}
+      />
+
+      <PasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+        onSubmit={handlePasswordSubmit}
       />
 
       {state.view === 'game' && (
