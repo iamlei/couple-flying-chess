@@ -105,10 +105,10 @@ function App() {
             <div className="text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1">
               Couple's Game
             </div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">情侣飞行棋</h1>
+            <h1 className="text-3xl font-bold text-white tracking-tight">柯老师情侣飞行棋</h1>
           </div>
-          <div className="flex flex-col items-end gap-2 mt-1">
-            <a
+           <div className="flex flex-col items-end gap-2 mt-1">
+            {/*<a
               href="https://github.com/woniu9524/couple-flying-chess"
               target="_blank"
               rel="noopener noreferrer"
@@ -122,8 +122,8 @@ function App() {
               className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
             >
               问题反馈：ikun@gmx.cn
-            </a>
-          </div>
+            </a>*/}
+          </div> 
         </header>
 
         <main className="flex-1 relative overflow-hidden">
